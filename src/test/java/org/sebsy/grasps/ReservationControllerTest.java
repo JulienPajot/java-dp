@@ -9,6 +9,8 @@ import org.sebsy.grasps.daos.IClientDao;
 import org.sebsy.grasps.daos.ITypeReservationDao;
 import org.sebsy.grasps.services.IReservationService;
 import org.sebsy.grasps.services.ReservationService;
+import org.sebsy.grasps.daos.IReservationDao;
+
 
 import static org.junit.Assert.assertEquals;
 
@@ -30,7 +32,10 @@ public class ReservationControllerTest extends TestCase {
         // Stub ITypeReservationDao
         ITypeReservationDao typeReservationDao = t -> type;
 
-        IReservationService service = new ReservationService(clientDao, typeReservationDao);
+        // Stub 
+        IReservationDao reservationDao = r -> r;
+
+        IReservationService service = new ReservationService(clientDao, typeReservationDao,reservationDao);
         return new ReservationController(service);
     }
 
@@ -38,11 +43,13 @@ public class ReservationControllerTest extends TestCase {
     public void testCreerReservationTheatrePremium() {
         ReservationController controller = buildController(CLIENT_PREMIUM, TYPE_THEATRE);
 
-        CreateReservationDto dto = new CreateReservationDto();
-        dto.dateReservation = "20/11/2020 19:55:00";
-        dto.nbPlaces = 3;
-        dto.identifiantClient = "1";
-        dto.typeReservation = "TH";
+        CreateReservationDto dto =
+                new CreateReservationDto(
+                        "1",
+                        3,
+                        "20/11/2020 19:55:00",
+                        "TH"
+                );
 
         Reservation reservation = controller.creerReservation(dto);
         assertEquals(382.5, reservation.getTotal(), DELTA);
@@ -52,11 +59,13 @@ public class ReservationControllerTest extends TestCase {
     public void testCreerReservationTheatreNonPremium() {
         ReservationController controller = buildController(CLIENT_NON_PREMIUM, TYPE_THEATRE);
 
-        CreateReservationDto dto = new CreateReservationDto();
-        dto.dateReservation = "20/11/2020 19:55:00";
-        dto.nbPlaces = 3;
-        dto.identifiantClient = "3";
-        dto.typeReservation = "TH";
+        CreateReservationDto dto =
+                new CreateReservationDto(
+                        "3",
+                        3,
+                        "20/11/2020 19:55:00",
+                        "TH"
+                );
 
         Reservation reservation = controller.creerReservation(dto);
         assertEquals(450.0, reservation.getTotal(), DELTA);
@@ -66,11 +75,13 @@ public class ReservationControllerTest extends TestCase {
     public void testCreerReservationCinemaPremium() {
         ReservationController controller = buildController(CLIENT_PREMIUM, TYPE_CINEMA);
 
-        CreateReservationDto dto = new CreateReservationDto();
-        dto.dateReservation = "21/11/2020 20:30:00";
-        dto.nbPlaces = 4;
-        dto.identifiantClient = "2";
-        dto.typeReservation = "CI";
+        CreateReservationDto dto =
+                new CreateReservationDto(
+                        "1",
+                        4,
+                        "21/11/2020 20:30:00",
+                        "CI"
+                );
 
         Reservation reservation = controller.creerReservation(dto);
         assertEquals(43.6, reservation.getTotal(), DELTA);
@@ -80,11 +91,13 @@ public class ReservationControllerTest extends TestCase {
     public void testCreerReservationCinemaNonPremium() {
         ReservationController controller = buildController(CLIENT_NON_PREMIUM, TYPE_CINEMA);
 
-        CreateReservationDto dto = new CreateReservationDto();
-        dto.dateReservation = "21/11/2020 20:30:00";
-        dto.nbPlaces = 4;
-        dto.identifiantClient = "3";
-        dto.typeReservation = "CI";
+        CreateReservationDto dto =
+                new CreateReservationDto(
+                        "3",
+                        4,
+                        "21/11/2020 20:30:00",
+                        "CI"
+                );
 
         Reservation reservation = controller.creerReservation(dto);
         assertEquals(43.6, reservation.getTotal(), DELTA);

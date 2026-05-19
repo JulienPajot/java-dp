@@ -36,6 +36,11 @@ public class Reservation {
         this.nbPlaces = nbPlaces;
     }
 
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     /**
      * Getter
      *
@@ -105,18 +110,15 @@ public class Reservation {
      * @param client the client to set
      */
     public void setClient(Client client) {
-        this.client = client;
-    }
-
-
-    public void calculerTotal(TypeReservation typeReservation) {
-
-        double totalBase = typeReservation.getMontant() * nbPlaces;
-
-        if (client.isPremium()) {
-            this.total = totalBase * (1 - typeReservation.getReductionPourcent() / 100.0);
-        } else {
-            this.total = totalBase;
+        if (this.client != null){
+            this.client.getReservations().remove(this);
         }
-    }
+
+        this.client = client;
+
+        if (this.client != null){
+            this.client.getReservations().add(this);
+
+        }
+    }    
 }

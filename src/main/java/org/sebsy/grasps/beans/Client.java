@@ -5,6 +5,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import java.util.ArrayList;
 import java.util.List;
+import java.time.LocalDateTime;
 
 @Entity
 public class Client {
@@ -81,6 +82,10 @@ public class Client {
         this.reservations = reservations;
     }
 
+    private void addReservation(Reservation reservation) {
+        reservation.setClient(this);
+        this.reservations.add(reservation);
+    }
 
     public Reservation creerReservation(LocalDateTime date, int nbPlaces, TypeReservation type) {
 

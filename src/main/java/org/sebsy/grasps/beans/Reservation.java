@@ -31,8 +31,8 @@ public class Reservation {
         this.date = date;
     }
 
-    public Reservation(Date dateReservation, int nbPlaces) {
-        this.dateReservation = dateReservation;
+    public Reservation(LocalDateTime date, int nbPlaces) {
+        this.date = date;
         this.nbPlaces = nbPlaces;
     }
 

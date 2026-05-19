@@ -14,15 +14,8 @@ import java.time.format.DateTimeFormatter;
  */
 public class ReservationController {
 
-    /**
-     * DAO permettant d'accéder à la table des clients
-     */
-    private ClientDao clientDao = new ClientDao();
+        private ReservationService reservationService = new ReservationService();
 
-    /**
-     * DAO permettant d'accéder à la table des types de réservation
-     */
-    private TypeReservationDao typeReservationDao = new TypeReservationDao();
 
     /**
      * Méthode qui créée une réservation pour un client à partir des informations transmises
@@ -32,11 +25,7 @@ public class ReservationController {
      */
     public Reservation creerReservation(CreateReservationDto reservationDto) {
 
-        LocalDateTime dateReservation = DateUtils.toDate(reservationDto.dateReservation);
-        Client client = clientDao.extraireClient(reservationDto.identifiantClient);
-        TypeReservation type = typeReservationDao.extraireTypeReservation(reservationDto.typeReservation);
-
-        return client.creerReservation(dateReservation, reservationDto.nbPlaces, type);;
+        return reservationService.creerReservation(reservationDto);
     }
 
 }

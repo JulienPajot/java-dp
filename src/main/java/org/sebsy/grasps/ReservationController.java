@@ -14,8 +14,11 @@ import java.time.format.DateTimeFormatter;
  */
 public class ReservationController {
 
-        private ReservationService reservationService = new ReservationService();
+    private IReservationService reservationService;
 
+    public ReservationController(IReservationService reservationService) {
+        this.reservationService = reservationService;
+    }
 
     /**
      * Méthode qui créée une réservation pour un client à partir des informations transmises
@@ -24,7 +27,6 @@ public class ReservationController {
      * @return Reservation
      */
     public Reservation creerReservation(CreateReservationDto reservationDto) {
-
         return reservationService.creerReservation(reservationDto);
     }
 

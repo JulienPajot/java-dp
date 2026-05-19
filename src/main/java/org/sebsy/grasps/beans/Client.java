@@ -80,4 +80,13 @@ public class Client {
     public void setReservations(List<Reservation> reservations) {
         this.reservations = reservations;
     }
+
+
+    public Reservation creerReservation(LocalDateTime date, int nbPlaces, TypeReservation type) {
+
+        Reservation reservation = new Reservation(date, nbPlaces);
+        this.addReservation(reservation);
+        reservation.calculerTotal(type);
+        return reservation; 
+    }
 }
